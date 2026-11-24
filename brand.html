@@ -1,1 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<title>Brand Stories | Himin Mohan</title>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #f8f7f4;
+  color: #242321;
+  font-family: "Cormorant Garamond", Georgia, serif;
+}
+
+header {
+  padding: 25px 7%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #e8e5df;
+}
+
+.logo {
+  font-size: 19px;
+  letter-spacing: 3px;
+  text-decoration: none;
+  color: #242321;
+}
+
+.back {
+  color: #8b765e;
+  text-decoration: none;
+  font-size: 15px;
+}
+
+.hero {
+  text-align: center;
+  padding: 95px 20px 65px;
+}
+
+.eyebrow {
+  color: #a68b65;
+  letter-spacing: 4px;
+  font-size: 12px;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+h1 {
+  font-size: clamp(38px, 7vw, 66px);
+  font-weight: 400;
+  letter-spacing: 2px;
+  margin-bottom: 22px;
+}
+
+.line {
+  width: 55px;
+  height: 1px;
+  background: #a68b65;
+  margin: 0 auto 25px;
+}
+
+.intro {
+  max-width: 620px;
+  margin: auto;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.9;
+  color: #77736e;
+}
+
+.gallery {
+  max-width: 1150px;
+  margin: 0 auto;
+  padding: 20px 7% 80px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+}
+
+.photo {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  display: block;
+  background: #eeece7;
+}
+
+.empty {
+  grid-column: 1 / -1;
+  padding: 65px 20px;
+  text-align: center;
+  border: 1px solid #e8e5df;
+  color: #8b8175;
+  font-family: Arial, sans-serif;
+  font-size: 13px;
+  line-height: 2;
+}
+
+.details {
+  text-align: center;
+  padding: 50px 20px 75px;
+  border-top: 1px solid #e8e5df;
+}
+
+.details p {
+  font-family: Arial, sans-serif;
+  font-size: 13px;
+  line-height: 2;
+  color: #77736e;
+}
+
+.instagram {
+  display: inline-block;
+  margin-top: 20px;
+  color: #a68b65;
+  text-decoration: none;
+  letter-spacing: 1px;
+  font-size: 14px;
+}
+
+.credit {
+  margin-top: 35px;
+  font-size: 12px !important;
+  letter-spacing: 1px;
+}
+
+footer {
+  text-align: center;
+  padding: 25px;
+  border-top: 1px solid #e8e5df;
+  font-family: Arial, sans-serif;
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: #99938a;
+}
+
+@media (max-width: 600px) {
+  header {
+    padding: 20px 5%;
+  }
+
+  .hero {
+    padding: 70px 20px 45px;
+  }
+
+  .gallery {
+    grid-template-columns: 1fr;
+    padding: 15px 5% 55px;
+    gap: 12px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <a href="index.html" class="logo">HIMIN MOHAN</a>
+  <a href="index.html" class="back">← Portfolio</a>
+</header>
+
+<main id="brand-content"></main>
+
+<footer>
+  © HIMIN MOHAN PHOTOGRAPHY
+</footer>
+
+<script>
+
+// ADD NEW BRANDS HERE IN THE FUTURE
+
+const brands = {
+
+  "madurai-rani": {
+    name: "Madurai Rani",
+    category: "Fashion Collaboration",
+    description:
+      "A special fashion collaboration featuring the saree collection of Madurai Rani, captured through thoughtful styling and visual storytelling.",
+    instagram:
+      "https://www.instagram.com/madurairanisarees/",
+    photos: []
+  }
+
+};
+
+
+// GET BRAND FROM PAGE URL
+
+const params = new URLSearchParams(window.location.search);
+const brandKey = params.get("brand") || "madurai-rani";
+const brand = brands[brandKey];
+
+const content = document.getElementById("brand-content");
+
+if (brand) {
+
+  document.title = brand.name + " | Himin Mohan";
+
+  const gallery = brand.photos.length
+    ? brand.photos.map(photo =>
+        <img class="photo" src="${photo}" alt="${brand.name} photography">
+      ).join("")
+    : `<div class="empty">
+        Photographs will be added soon.
+       </div>`;
+
+  content.innerHTML = `
+    <section class="hero">
+      <p class="eyebrow">${brand.category}</p>
+      <h1>${brand.name}</h1>
+      <div class="line"></div>
+      <p class="intro">${brand.description}</p>
+    </section>
+
+    <section class="gallery">
+      ${gallery}
+    </section>
+
+    <section class="details">
+      <p>Explore the brand</p>
+      <a class="instagram"
+         href="${brand.instagram}"
+         target="_blank"
+         rel="noopener noreferrer">
+         VISIT INSTAGRAM ↗️
+      </a>
+
+      <p class="credit">
+        PHOTOGRAPHY & CREATIVE DIRECTION<br>
+        HIMIN MOHAN
+      </p>
+    </section>
+  `;
+
+} else {
+
+  content.innerHTML = `
+    <section class="hero">
+      <h1>Brand not found</h1>
+      <p class="intro">Please return to the portfolio.</p>
+    </section>
+  `;
+
+}
+
+</script>
+
+</body>
+</html>
